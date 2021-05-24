@@ -27,7 +27,13 @@ args = parse.parse_args()
 cfg = cfg_factory[args.model]
 
 
-palette = np.random.randint(0, 256, (256, 3), dtype=np.uint8)
+#palette = np.random.randint(0, 256, (256, 3), dtype=np.uint8)
+
+palette = np.array([[128, 64, 128], [244, 35, 232], [0, 0, 0], [0, 0, 0], [190, 153, 153],
+           [153, 153, 153], [0, 0, 0],
+           [0, 0, 0], [107, 142, 35], [152, 251, 152], [0, 0, 0], [0, 0, 0],
+           [0, 0, 0], [0, 0, 0], [0, 0, 0],
+           [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]], dtype=np.uint8)
 
 # define model
 net = model_factory[cfg.model_type](19)
@@ -53,6 +59,7 @@ while True:
     t0 = time.time()
     # inference
     out = net(im)[0].argmax(dim=1).squeeze().detach().cpu().numpy()
+    print(out[256][512])
     pred = palette[out]
     overlayed = 0.7 * frame_scaled + 0.3 * pred
     overlayed = overlayed.astype('uint8')
